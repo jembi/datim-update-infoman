@@ -17,16 +17,19 @@ PEPFAR_ID_COL=0
 LOCAL_ID_COL=1
 
 DEFAULT_URL="http://localhost:8984/CSD"
+DEFAULT_OTHERID_SCHEMA="urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63"
 
 
-usage_msg = """Usage: $0 [OPTIONS...] CSV DIRECTORY_NAME
+usage_msg = """Usage: ./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
 Updates OpenInfoMan with facility codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
 OPTIONS are:
     -h
         Print help and exit.
     -l
         Treat the first line as a row. Without this option the first line will be treated as a header and ignored.
-    -u
+    -s SCHEMA
+        The code schema to use for the local identifier. A default UUID will be used if not specified.
+    -u URL
         The base URL to use for OpenInfoMan. Without this option, the value 'http://localhost:8984/CSD' will be used.
 """
 
@@ -119,18 +122,18 @@ def send_csd_facility_update(base_url, directory, request):
         if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
 
 
-def process_facility_update(base_url, directory, pepfar_id, local_id):
+def process_facility_update(base_url, directory, pepfar_id, local_id, otherid_schema):
     facility = lookup_csd_facility(base_url, directory, pepfar_id)
     if facility is None:
         raise ContentException('Could not find facility with entityID ' + pepfar_id)
 
-    ET.SubElement(facility, 'otherID', {'code': local_id, 'codingSchema': 'TODO'})
+    ET.SubElement(facility, 'otherID', {'code': local_id, 'codingSchema': otherid_schema})
     updateRequest = ET.Element('requestParams')
     updateRequest.append(facility)
     requestString = ET.tostring(updateRequest, encoding='utf-8')
     send_csd_facility_update(base_url, directory, requestString)
 
-def process_csv_contents(csv_file, base_url, directory, read_first_line=False):
+def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema):
     print "Using OpenInfoMan instance " + base_url
     print "Processing CSV %s ..." % (csv_file)
 
@@ -148,7 +151,7 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line=False):
                     line_print(line_num, "invalid content", WARN)
                 else:
                     try:
-                        process_facility_update(base_url, directory, row[PEPFAR_ID_COL], row[LOCAL_ID_COL])
+                        process_facility_update(base_url, directory, row[PEPFAR_ID_COL], row[LOCAL_ID_COL], otherid_schema)
                     except ContentException as e:
                         line_print(line_num, e.message, WARN)
                     except RequestException as e:
@@ -164,10 +167,11 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line=False):
 
 if __name__ == "__main__":
     base_url=DEFAULT_URL
+    otherid_schema = DEFAULT_OTHERID_SCHEMA
     read_first_line = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hlu:")
+        opts, args = getopt.getopt(sys.argv[1:], "hls:u:")
     except getopt.GetoptError:
         print_usage_and_exit()
 
@@ -176,9 +180,11 @@ if __name__ == "__main__":
             print_usage_and_exit()
         elif opt == '-l':
             read_first_line = True
+        elif opt == '-s':
+            otherid_schema = arg
         elif opt == '-u':
             base_url = arg
 
     if len(args) <= 1: print_usage_and_exit()
     
-    process_csv_contents(args[0], base_url, args[1], read_first_line)
+    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema)
