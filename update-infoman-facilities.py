@@ -19,8 +19,8 @@ LOCAL_ID_COL=1
 DEFAULT_URL="http://localhost:8984/CSD"
 
 
-usage_msg = """Usage: $0 [OPTIONS...] CSV
-Updates OpenInfoMan with facility codes provided by a file in csv format.
+usage_msg = """Usage: $0 [OPTIONS...] CSV DIRECTORY_NAME
+Updates OpenInfoMan with facility codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
 OPTIONS are:
     -h
         Print help and exit.
@@ -80,8 +80,8 @@ def split_csv_line(line):
     return split
 
 
-FACILITY_SEARCH = "/csr/CSD-Facilities-Connectathon-20150120/careServicesRequest/urn:ihe:iti:csd:2014:stored-function:facility-search"
-FACILITY_UPDATE = "/csr/CSD-Facilities-Connectathon-20150120/careServicesRequest/update/urn:openhie.org:openinfoman:facility_create"
+FACILITY_SEARCH = "%s/csr/%s/careServicesRequest/urn:ihe:iti:csd:2014:stored-function:facility-search"
+FACILITY_UPDATE = "%s/csr/%s/careServicesRequest/update/urn:openhie.org:openinfoman:facility_create"
 
 FACILITY_SEARCH_BODY = """
 <requestParams xmlns="urn:ihe:iti:csd:2013">
@@ -92,14 +92,15 @@ FACILITY_SEARCH_BODY = """
 class RequestException(Exception): pass
 class ContentException(Exception): pass
 
-def lookup_csd_facility(base_url, entity_id):
+def lookup_csd_facility(base_url, directory, entity_id):
     request_body = FACILITY_SEARCH_BODY % (entity_id)
-    req = urllib2.Request(base_url+FACILITY_SEARCH, data=request_body, headers={'content-type': 'text/xml'})
+    req = urllib2.Request(FACILITY_SEARCH % (base_url, directory), data=request_body, headers={'content-type': 'text/xml'})
 
     with contextlib.closing(urllib2.urlopen(req)) as res:
         body = res.read()
 
         if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
+        if body.strip() == "": raise RequestException('Empty response from OpenInfoMan. Is a valid directory specified?')
 
         root = ET.fromstring(body)
         for child in root:
@@ -109,8 +110,8 @@ def lookup_csd_facility(base_url, entity_id):
 
         return None
 
-def send_csd_facility_update(base_url, request):
-    req = urllib2.Request(base_url+FACILITY_UPDATE, data=request, headers={'content-type': 'text/xml'})
+def send_csd_facility_update(base_url, directory, request):
+    req = urllib2.Request(FACILITY_UPDATE % (base_url, directory), data=request, headers={'content-type': 'text/xml'})
 
     with contextlib.closing(urllib2.urlopen(req)) as res:
         body = res.read()
@@ -118,8 +119,8 @@ def send_csd_facility_update(base_url, request):
         if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
 
 
-def process_facility_update(base_url, pepfar_id, local_id):
-    facility = lookup_csd_facility(base_url, pepfar_id)
+def process_facility_update(base_url, directory, pepfar_id, local_id):
+    facility = lookup_csd_facility(base_url, directory, pepfar_id)
     if facility is None:
         raise ContentException('Could not find facility with entityID ' + pepfar_id)
 
@@ -127,13 +128,13 @@ def process_facility_update(base_url, pepfar_id, local_id):
     updateRequest = ET.Element('requestParams')
     updateRequest.append(facility)
     requestString = ET.tostring(updateRequest, encoding='utf-8')
-    send_csd_facility_update(base_url, requestString)
+    send_csd_facility_update(base_url, directory, requestString)
 
-def process_csv_contents(args, base_url, read_first_line=False):
+def process_csv_contents(csv_file, base_url, directory, read_first_line=False):
     print "Using OpenInfoMan instance " + base_url
-    print "Processing CSV %s ..." % (args[0])
+    print "Processing CSV %s ..." % (csv_file)
 
-    with open(args[0], 'r') as f:
+    with open(csv_file, 'r') as f:
         line_num=0
         first_line=not read_first_line
 
@@ -147,7 +148,7 @@ def process_csv_contents(args, base_url, read_first_line=False):
                     line_print(line_num, "invalid content", WARN)
                 else:
                     try:
-                        process_facility_update(base_url, row[PEPFAR_ID_COL], row[LOCAL_ID_COL])
+                        process_facility_update(base_url, directory, row[PEPFAR_ID_COL], row[LOCAL_ID_COL])
                     except ContentException as e:
                         line_print(line_num, e.message, WARN)
                     except RequestException as e:
@@ -178,6 +179,6 @@ if __name__ == "__main__":
         elif opt == '-u':
             base_url = arg
 
-    if len(args) == 0: print_usage_and_exit()
+    if len(args) <= 1: print_usage_and_exit()
     
-    process_csv_contents(args, base_url, read_first_line)
+    process_csv_contents(args[0], base_url, args[1], read_first_line)
