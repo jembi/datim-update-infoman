@@ -9,6 +9,7 @@ Updates OpenInfoMan with facility codes provided by a file in csv format. The `D
 
 `OPTIONS` are:
 * `-h`: Print help and exit.
+* `-f`: Do not resume partially processed files. Will start from the beginning.
 * `-l`: Treat the first line as a row. Without this option the first line will be treated as a header and ignored.
 * `-m PEPFAR_ID_COL`: The Pepfar ID column in the CSV. `1` indicates the first column. (Default: `1`)
 * `-n LOCAL_ID_COL`: The Local ID column in the CSV. `1` indicates the first column. (Default: `2`)

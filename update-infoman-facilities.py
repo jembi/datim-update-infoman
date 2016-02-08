@@ -6,6 +6,7 @@
 # we want to make it easy for implementers to grab and run.
 #
 import sys
+import os
 import getopt
 import urllib2
 from xml.etree import ElementTree as ET
@@ -25,6 +26,8 @@ Updates OpenInfoMan with facility codes provided by a file in csv format. The DI
 OPTIONS are:
     -h
         Print help and exit.
+    -f
+        Do not resume partially processed files. Will start from the beginning.
     -l
         Treat the first line as a row. Without this option the first line will be treated as a header and ignored.
     -m PEPFAR_ID_COL
@@ -45,8 +48,9 @@ def print_usage_and_exit():
 ERROR=0
 SUCCESS=1
 WARN=2
+INFO=3
 
-def line_print(line_num, msg="", status=-1):
+def line_print(line_num, msg="", status=INFO):
     """Print a message for the current line"""
 
     if status == ERROR:
@@ -100,6 +104,8 @@ class RequestException(Exception): pass
 class ContentException(Exception): pass
 
 def lookup_csd_facility(base_url, directory, entity_id):
+    """Query OpenInfoMan for a facility with a particular entityID"""
+
     request_body = FACILITY_SEARCH_BODY % (entity_id)
     req = urllib2.Request(FACILITY_SEARCH % (base_url, directory), data=request_body, headers={'content-type': 'text/xml'})
 
@@ -118,6 +124,8 @@ def lookup_csd_facility(base_url, directory, entity_id):
         return None
 
 def send_csd_facility_update(base_url, directory, request):
+    """Send a facility update to OpenInfoMan"""
+
     req = urllib2.Request(FACILITY_UPDATE % (base_url, directory), data=request, headers={'content-type': 'text/xml'})
 
     with contextlib.closing(urllib2.urlopen(req)) as res:
@@ -127,35 +135,81 @@ def send_csd_facility_update(base_url, directory, request):
 
 
 def process_facility_update(base_url, directory, pepfar_id, local_id, otherid_schema):
+    """Lookup a facility with a particular Pepfar ID and update it with a local ID"""
+
     facility = lookup_csd_facility(base_url, directory, pepfar_id)
     if facility is None:
         raise ContentException('Could not find facility with entityID ' + pepfar_id)
 
+    # add a new <otherID> sub-element with the local ID
     ET.SubElement(facility, 'otherID', {'code': local_id, 'codingSchema': otherid_schema})
     updateRequest = ET.Element('requestParams')
     updateRequest.append(facility)
+
+    # build CSD update request
     requestString = ET.tostring(updateRequest, encoding='utf-8')
+
     send_csd_facility_update(base_url, directory, requestString)
 
-def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col):
+
+# Progress functions
+
+# The script will (naively) try to resume a failed update by keeping a .file.csv.progress file.
+# This file simply contains the line number of the last line processed without error.
+# If the file exists, the update will be resumed from the line+1. If the entire update process finishes,
+# the file will be removed, meaning that if the script were rerun it would start from the beginning.
+
+resume_progress_file = lambda f: ".%s.progress" % (f)
+
+def get_resume_line(csv_file):
+    """Determine if the file should be resumed from a previous update, and if so which line"""
+
+    if not os.path.isfile(resume_progress_file(csv_file)): return None
+
+    with open(resume_progress_file(csv_file), 'r') as f:
+        line = f.readline()
+        line = line.strip()
+        if line == '': return None
+        return int(line)
+
+def save_progress(csv_file, line):
+    with open(resume_progress_file(csv_file), 'w') as f: f.write(str(line))
+
+def clear_progress(csv_file):
+    if os.path.isfile(resume_progress_file(csv_file)): os.remove(resume_progress_file(csv_file))
+
+###
+
+
+def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress):
     print "Using OpenInfoMan instance " + base_url
-    print "Processing CSV %s ..." % (csv_file)
+
+    resume_line = get_resume_line(csv_file) if not ignore_progress else None
+    if resume_line:
+        print "Resuming CSV %s ..." % (csv_file)
+    else:
+        print "Processing CSV %s ..." % (csv_file)
+    print
 
     with open(csv_file, 'r') as f:
-        line_num=0
+        line_num=1
         first_line=not read_first_line
 
         for line in f:
-            if first_line == True:
+            if resume_line and line_num <= resume_line:
+                pass
+            elif line_num == 1 and first_line == True:
+                line_print(line_num, "Skipping header")
                 first_line = False
             else:
                 row = split_csv_line(line)
 
                 if len(row) <= max(pepfar_id_col, local_id_col) or row[pepfar_id_col] == '' or row[local_id_col] == '':
-                    line_print(line_num, "invalid content", WARN)
+                    line_print(line_num, "Invalid content", WARN)
                 else:
                     try:
                         process_facility_update(base_url, directory, row[pepfar_id_col], row[local_id_col], otherid_schema)
+                        line_print(line_num, 'Updated', SUCCESS)
                     except ContentException as e:
                         line_print(line_num, e.message, WARN)
                     except RequestException as e:
@@ -165,7 +219,12 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
                         line_print(line_num, "Failed to connect to OpenInfoMan host - " + str(e.reason), ERROR)
                         sys.exit(1)
 
+            save_progress(csv_file, line_num)
             line_num = line_num+1
+
+        clear_progress(csv_file)
+        print
+        print "Done"
 
 
 
@@ -175,15 +234,18 @@ if __name__ == "__main__":
     read_first_line = False
     pepfar_id_col = DEFAULT_PEPFAR_ID_COL
     local_id_col = DEFAULT_LOCAL_ID_COL
+    ignore_progress = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hlm:n:s:u:")
+        opts, args = getopt.getopt(sys.argv[1:], "hflm:n:s:u:")
     except getopt.GetoptError:
         print_usage_and_exit()
 
     for opt, arg in opts:
         if opt == '-h':
             print_usage_and_exit()
+        if opt == '-f':
+            ignore_progress = True
         elif opt == '-l':
             read_first_line = True
         elif opt == '-m':
@@ -197,4 +259,4 @@ if __name__ == "__main__":
 
     if len(args) <= 1: print_usage_and_exit()
     
-    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema, pepfar_id_col, local_id_col)
+    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
