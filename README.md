@@ -10,6 +10,8 @@ Updates OpenInfoMan with facility codes provided by a file in csv format. The `D
 `OPTIONS` are:
 * `-h`: Print help and exit.
 * `-l`: Treat the first line as a row. Without this option the first line will be treated as a header and ignored.
+* `-m PEPFAR_ID_COL`: The Pepfar ID column in the CSV. `1` indicates the first column. (Default: `1`)
+* `-n LOCAL_ID_COL`: The Local ID column in the CSV. `1` indicates the first column. (Default: `2`)
 * `-s SCHEMA`: The code schema to use for the local identifier. A default UUID will be used if not specified.
 * `-u URL`: The base URL to use for OpenInfoMan. Without this option, the value 'http://localhost:8984/CSD' will be used.
 
@@ -25,3 +27,5 @@ chmod +x update-infoman-facilities.py
 The updates must be specified in a CSV file with the first column containing the Pepfar ID and the second column containing the local ID. The script will lookup the facility using the Pepfar ID and add an otherID to the facility with the local ID value.
 
 The spreadsheet can have other columns - these will simply be ignored.
+
+If the Pepfar and Local IDs are in different columns in your spreadsheet, use the `-m` and `-n` arguments to set the correct columns.

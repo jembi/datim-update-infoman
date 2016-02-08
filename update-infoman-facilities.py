@@ -12,9 +12,9 @@ from xml.etree import ElementTree as ET
 import contextlib
 
 
-# which column to use for pepfar and local IDs
-PEPFAR_ID_COL=0
-LOCAL_ID_COL=1
+# which column to use for pepfar and local IDs (0-indexed; note that program args are 1-indexed)
+DEFAULT_PEPFAR_ID_COL=0
+DEFAULT_LOCAL_ID_COL=1
 
 DEFAULT_URL="http://localhost:8984/CSD"
 DEFAULT_OTHERID_SCHEMA="urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63"
@@ -27,6 +27,10 @@ OPTIONS are:
         Print help and exit.
     -l
         Treat the first line as a row. Without this option the first line will be treated as a header and ignored.
+    -m PEPFAR_ID_COL
+        The Pepfar ID column in the CSV. '1' indicates the first column. (Default: 1)
+    -n LOCAL_ID_COL
+        The Local ID column in the CSV. '1' indicates the first column. (Default: 2)
     -s SCHEMA
         The code schema to use for the local identifier. A default UUID will be used if not specified.
     -u URL
@@ -133,7 +137,7 @@ def process_facility_update(base_url, directory, pepfar_id, local_id, otherid_sc
     requestString = ET.tostring(updateRequest, encoding='utf-8')
     send_csd_facility_update(base_url, directory, requestString)
 
-def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema):
+def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col):
     print "Using OpenInfoMan instance " + base_url
     print "Processing CSV %s ..." % (csv_file)
 
@@ -147,11 +151,11 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
             else:
                 row = split_csv_line(line)
 
-                if len(row) <= max(PEPFAR_ID_COL, LOCAL_ID_COL) or row[PEPFAR_ID_COL] == '' or row[LOCAL_ID_COL] == '':
+                if len(row) <= max(pepfar_id_col, local_id_col) or row[pepfar_id_col] == '' or row[local_id_col] == '':
                     line_print(line_num, "invalid content", WARN)
                 else:
                     try:
-                        process_facility_update(base_url, directory, row[PEPFAR_ID_COL], row[LOCAL_ID_COL], otherid_schema)
+                        process_facility_update(base_url, directory, row[pepfar_id_col], row[local_id_col], otherid_schema)
                     except ContentException as e:
                         line_print(line_num, e.message, WARN)
                     except RequestException as e:
@@ -169,9 +173,11 @@ if __name__ == "__main__":
     base_url=DEFAULT_URL
     otherid_schema = DEFAULT_OTHERID_SCHEMA
     read_first_line = False
+    pepfar_id_col = DEFAULT_PEPFAR_ID_COL
+    local_id_col = DEFAULT_LOCAL_ID_COL
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hls:u:")
+        opts, args = getopt.getopt(sys.argv[1:], "hlm:n:s:u:")
     except getopt.GetoptError:
         print_usage_and_exit()
 
@@ -180,6 +186,10 @@ if __name__ == "__main__":
             print_usage_and_exit()
         elif opt == '-l':
             read_first_line = True
+        elif opt == '-m':
+            pepfar_id_col = int(arg)-1
+        elif opt == '-n':
+            local_id_col = int(arg)-1
         elif opt == '-s':
             otherid_schema = arg
         elif opt == '-u':
@@ -187,4 +197,4 @@ if __name__ == "__main__":
 
     if len(args) <= 1: print_usage_and_exit()
     
-    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema)
+    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema, pepfar_id_col, local_id_col)
