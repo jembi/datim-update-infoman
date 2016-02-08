@@ -14,7 +14,7 @@ Updates OpenInfoMan with facility codes provided by a file in csv format. The `D
 * `-m PEPFAR_ID_COL`: The Pepfar ID column in the CSV. `1` indicates the first column. (Default: `1`)
 * `-n LOCAL_ID_COL`: The Local ID column in the CSV. `1` indicates the first column. (Default: `2`)
 * `-s SCHEMA`: The code schema to use for the local identifier. A default UUID will be used if not specified.
-* `-u URL`: The base URL to use for OpenInfoMan. Without this option, the value 'http://localhost:8984/CSD' will be used.
+* `-u URL`: The base URL to use for OpenInfoMan. Without this option, the value `http://localhost:8984/CSD` will be used.
 
 # Getting and running the script
 The script should work out-of-the-box on most Linux distributions and OS X (Windows users see [here](http://docs.python-guide.org/en/latest/starting/install/win/)). Simply grab the script and run:

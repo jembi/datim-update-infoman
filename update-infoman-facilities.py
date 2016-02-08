@@ -14,15 +14,17 @@ import contextlib
 
 
 # which column to use for pepfar and local IDs (0-indexed; note that program args are 1-indexed)
-DEFAULT_PEPFAR_ID_COL=0
-DEFAULT_LOCAL_ID_COL=1
+DEFAULT_PEPFAR_ID_COL = 0
+DEFAULT_LOCAL_ID_COL = 1
 
-DEFAULT_URL="http://localhost:8984/CSD"
-DEFAULT_OTHERID_SCHEMA="urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63"
+DEFAULT_URL = "http://localhost:8984/CSD"
+DEFAULT_OTHERID_SCHEMA = "urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63"
 
 
-usage_msg = """Usage: ./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
+USAGE = """Usage: ./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
+
 Updates OpenInfoMan with facility codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
+
 OPTIONS are:
     -h
         Print help and exit.
@@ -41,14 +43,14 @@ OPTIONS are:
 """
 
 def print_usage_and_exit():
-    print usage_msg
+    print USAGE
     sys.exit()
 
 
-ERROR=0
-SUCCESS=1
-WARN=2
-INFO=3
+ERROR = 0
+SUCCESS = 1
+WARN = 2
+INFO = 3
 
 def line_print(line_num, msg="", status=INFO):
     """Print a message for the current line"""
@@ -193,14 +195,12 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
 
     with open(csv_file, 'r') as f:
         line_num=1
-        first_line=not read_first_line
 
         for line in f:
             if resume_line and line_num <= resume_line:
                 pass
-            elif line_num == 1 and first_line == True:
+            elif line_num == 1 and not read_first_line:
                 line_print(line_num, "Skipping header")
-                first_line = False
             else:
                 row = split_csv_line(line)
 
@@ -229,7 +229,7 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
 
 
 if __name__ == "__main__":
-    base_url=DEFAULT_URL
+    base_url = DEFAULT_URL
     otherid_schema = DEFAULT_OTHERID_SCHEMA
     read_first_line = False
     pepfar_id_col = DEFAULT_PEPFAR_ID_COL
@@ -259,4 +259,6 @@ if __name__ == "__main__":
 
     if len(args) <= 1: print_usage_and_exit()
     
-    process_csv_contents(args[0], base_url, args[1], read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
+    csv_file = args[0]
+    directory = args[1]
+    process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
