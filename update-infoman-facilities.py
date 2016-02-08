@@ -182,7 +182,7 @@ def clear_progress(csv_file):
 
 
 def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress):
-    print "Using OpenInfoMan instance " + base_url
+    print "Using OpenInfoMan instance %s and directory %s" % (base_url, directory)
 
     resume_line = get_resume_line(csv_file) if not ignore_progress else None
     if resume_line:
