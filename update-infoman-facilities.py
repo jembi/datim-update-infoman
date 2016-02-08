@@ -1,8 +1,15 @@
 #!/usr/bin/env python
+
+# Only import from the python standard library.
+#
+# Since this is a simple standalone script,
+# we want to make it easy for implementers to grab and run.
+#
 import sys
 import getopt
-import requests
+import urllib2
 from xml.etree import ElementTree as ET
+import contextlib
 
 
 # which column to use for pepfar and local IDs
@@ -87,22 +94,28 @@ class ContentException(Exception): pass
 
 def lookup_csd_facility(base_url, entity_id):
     request_body = FACILITY_SEARCH_BODY % (entity_id)
-    r = requests.post(base_url+FACILITY_SEARCH, headers={'content-type': 'text/xml'}, data=request_body)
+    req = urllib2.Request(base_url+FACILITY_SEARCH, data=request_body, headers={'content-type': 'text/xml'})
 
-    if r.status_code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(r.status_code) + ': ' + r.text)
+    with contextlib.closing(urllib2.urlopen(req)) as res:
+        body = res.read()
 
-    root = ET.fromstring(r.text)
-    for child in root:
-        if child.tag.endswith('facilityDirectory'):
-            if len(child) >= 1:
-                return child[0]
+        if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
 
-    return None
+        root = ET.fromstring(body)
+        for child in root:
+            if child.tag.endswith('facilityDirectory'):
+                if len(child) >= 1:
+                    return child[0]
+
+        return None
 
 def send_csd_facility_update(base_url, request):
-    r = requests.post(base_url+FACILITY_UPDATE, headers={'content-type': 'text/xml'}, data=request)
+    req = urllib2.Request(base_url+FACILITY_UPDATE, data=request, headers={'content-type': 'text/xml'})
 
-    if r.status_code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(r.status_code) + ': ' + r.text)
+    with contextlib.closing(urllib2.urlopen(req)) as res:
+        body = res.read()
+
+        if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
 
 
 def process_facility_update(base_url, pepfar_id, local_id):
@@ -139,6 +152,9 @@ def process_csv_contents(args, base_url, read_first_line=False):
                         line_print(line_num, e.message, WARN)
                     except RequestException as e:
                         line_print(line_num, e.message, ERROR)
+                        sys.exit(1)
+                    except urllib2.URLError as e:
+                        line_print(line_num, "Failed to connect to OpenInfoMan host - " + str(e.reason), ERROR)
                         sys.exit(1)
 
             line_num = line_num+1
