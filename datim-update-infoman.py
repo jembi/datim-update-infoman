@@ -125,7 +125,9 @@ def lookup_csd_resource(base_url, resource_type, directory, entity_id):
         if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
         if body.strip() == "": raise RequestException('Empty response from OpenInfoMan. Is a valid directory specified?')
 
+        ET.register_namespace('', 'urn:ihe:iti:csd:2013')
         root = ET.fromstring(body)
+
         for child in root:
             if child.tag.endswith("%sDirectory" % (resource_type)):
                 if len(child) >= 1:
