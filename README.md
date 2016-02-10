@@ -3,7 +3,7 @@ Datim script for updating OpenInfoMan resources from a spreadsheet.
 
 # Usage
 ```
-./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
+./datim-update-infoman.py [OPTIONS...] CSV DIRECTORY_NAME
 ```
 Updates OpenInfoMan with codes provided by a file in csv format. The `DIRECTORY_NAME` that needs to be updated in OpenInfoMan has to be specified.
 
@@ -20,9 +20,9 @@ Updates OpenInfoMan with codes provided by a file in csv format. The `DIRECTORY_
 # Getting and running the script
 The script should work out-of-the-box on most Linux distributions and OS X (Windows users see [here](http://docs.python-guide.org/en/latest/starting/install/win/)). Simply grab the script and run:
 ```
-wget https://raw.githubusercontent.com/jembi/datim-update-infoman-facilities/master/update-infoman-facilities.py
-chmod +x update-infoman-facilities.py
-./update-infoman-facilities.py -u http://my-infoman:8984/CSD -s uuid:me:localid -t facility updates.csv my-facilities
+wget https://raw.githubusercontent.com/jembi/datim-update-infoman/master/datim-update-infoman.py
+chmod +x datim-update-infoman.py
+./datim-update-infoman.py -u http://my-infoman:8984/CSD -s uuid:me:localid -t facility updates.csv my-facilities
 ```
 
 # CSV
