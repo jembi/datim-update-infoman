@@ -20,10 +20,16 @@ DEFAULT_LOCAL_ID_COL = 1
 DEFAULT_URL = "http://localhost:8984/CSD"
 DEFAULT_OTHERID_SCHEMA = "urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63"
 
+FACILITY = 'facility'
+ORGANIZATION = 'organization'
+PROVIDER = 'provider'
+SERVICE = 'service'
+DEFAULT_RESOURCE_TYPE = ORGANIZATION
+
 
 USAGE = """Usage: ./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
 
-Updates OpenInfoMan with facility codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
+Updates OpenInfoMan with codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
 
 OPTIONS are:
     -h
@@ -38,6 +44,8 @@ OPTIONS are:
         The Local ID column in the CSV. '1' indicates the first column. (Default: 2)
     -s SCHEMA
         The code schema to use for the local identifier. A default UUID will be used if not specified.
+    -t RESOURCE_TYPE
+        The CSD resource type to update. Options are 'facility', 'organization', 'provider' and 'service'. The default is 'organization'.
     -u URL
         The base URL to use for OpenInfoMan. Without this option, the value 'http://localhost:8984/CSD' will be used.
 """
@@ -93,10 +101,10 @@ def split_csv_line(line):
     return split
 
 
-FACILITY_SEARCH = "%s/csr/%s/careServicesRequest/urn:ihe:iti:csd:2014:stored-function:facility-search"
-FACILITY_UPDATE = "%s/csr/%s/careServicesRequest/update/urn:openhie.org:openinfoman:facility_create"
+RESOURCE_SEARCH = "%s/csr/%s/careServicesRequest/urn:ihe:iti:csd:2014:stored-function:%s-search"
+RESOURCE_UPDATE = "%s/csr/%s/careServicesRequest/update/urn:openhie.org:openinfoman:%s_create"
 
-FACILITY_SEARCH_BODY = """
+RESOURCE_SEARCH_BODY = """
 <requestParams xmlns="urn:ihe:iti:csd:2013">
   <id entityID="%s"/>
 </requestParams>
@@ -105,11 +113,11 @@ FACILITY_SEARCH_BODY = """
 class RequestException(Exception): pass
 class ContentException(Exception): pass
 
-def lookup_csd_facility(base_url, directory, entity_id):
-    """Query OpenInfoMan for a facility with a particular entityID"""
+def lookup_csd_resource(base_url, resource_type, directory, entity_id):
+    """Query OpenInfoMan for a resource with a particular entityID"""
 
-    request_body = FACILITY_SEARCH_BODY % (entity_id)
-    req = urllib2.Request(FACILITY_SEARCH % (base_url, directory), data=request_body, headers={'content-type': 'text/xml'})
+    request_body = RESOURCE_SEARCH_BODY % (entity_id)
+    req = urllib2.Request(RESOURCE_SEARCH % (base_url, directory, resource_type), data=request_body, headers={'content-type': 'text/xml'})
 
     with contextlib.closing(urllib2.urlopen(req)) as res:
         body = res.read()
@@ -119,16 +127,16 @@ def lookup_csd_facility(base_url, directory, entity_id):
 
         root = ET.fromstring(body)
         for child in root:
-            if child.tag.endswith('facilityDirectory'):
+            if child.tag.endswith("%sDirectory" % (resource_type)):
                 if len(child) >= 1:
                     return child[0]
 
         return None
 
-def send_csd_facility_update(base_url, directory, request):
-    """Send a facility update to OpenInfoMan"""
+def send_csd_resource_update(base_url, directory, request):
+    """Send a resource update to OpenInfoMan"""
 
-    req = urllib2.Request(FACILITY_UPDATE % (base_url, directory), data=request, headers={'content-type': 'text/xml'})
+    req = urllib2.Request(RESOURCE_UPDATE % (base_url, directory, resource_type), data=request, headers={'content-type': 'text/xml'})
 
     with contextlib.closing(urllib2.urlopen(req)) as res:
         body = res.read()
@@ -136,22 +144,22 @@ def send_csd_facility_update(base_url, directory, request):
         if res.code != 200: raise RequestException('Request to OpenInfoMan responded with status ' + str(res.code) + ': ' + body)
 
 
-def process_facility_update(base_url, directory, pepfar_id, local_id, otherid_schema):
-    """Lookup a facility with a particular Pepfar ID and update it with a local ID"""
+def process_resource_update(base_url, resource_type, directory, pepfar_id, local_id, otherid_schema):
+    """Lookup a resource with a particular Pepfar ID and update it with a local ID"""
 
-    facility = lookup_csd_facility(base_url, directory, pepfar_id)
-    if facility is None:
-        raise ContentException('Could not find facility with entityID ' + pepfar_id)
+    resource = lookup_csd_resource(base_url, resource_type, directory, pepfar_id)
+    if resource is None:
+        raise ContentException('Could not find %s resource with entityID %s' % (resource_type, pepfar_id))
 
     # add a new <otherID> sub-element with the local ID
-    ET.SubElement(facility, 'otherID', {'code': local_id, 'codingSchema': otherid_schema})
+    ET.SubElement(resource, 'otherID', {'code': local_id, 'codingSchema': otherid_schema})
     updateRequest = ET.Element('requestParams')
-    updateRequest.append(facility)
+    updateRequest.append(resource)
 
     # build CSD update request
     requestString = ET.tostring(updateRequest, encoding='utf-8')
 
-    send_csd_facility_update(base_url, directory, requestString)
+    send_csd_resource_update(base_url, directory, requestString)
 
 
 # Progress functions
@@ -183,7 +191,7 @@ def clear_progress(csv_file):
 ###
 
 
-def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress):
+def process_csv_contents(csv_file, base_url, resource_type, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress):
     print "Using OpenInfoMan instance %s and directory %s" % (base_url, directory)
 
     resume_line = get_resume_line(csv_file) if not ignore_progress else None
@@ -208,7 +216,7 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
                     line_print(line_num, "Invalid content", WARN)
                 else:
                     try:
-                        process_facility_update(base_url, directory, row[pepfar_id_col], row[local_id_col], otherid_schema)
+                        process_resource_update(base_url, resource_type, directory, row[pepfar_id_col], row[local_id_col], otherid_schema)
                         line_print(line_num, 'Updated', SUCCESS)
                     except ContentException as e:
                         line_print(line_num, e.message, WARN)
@@ -230,6 +238,7 @@ def process_csv_contents(csv_file, base_url, directory, read_first_line, otherid
 
 if __name__ == "__main__":
     base_url = DEFAULT_URL
+    resource_type = DEFAULT_RESOURCE_TYPE
     otherid_schema = DEFAULT_OTHERID_SCHEMA
     read_first_line = False
     pepfar_id_col = DEFAULT_PEPFAR_ID_COL
@@ -237,7 +246,7 @@ if __name__ == "__main__":
     ignore_progress = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hflm:n:s:u:")
+        opts, args = getopt.getopt(sys.argv[1:], "hflm:n:s:t:u:")
     except getopt.GetoptError:
         print_usage_and_exit()
 
@@ -254,6 +263,11 @@ if __name__ == "__main__":
             local_id_col = int(arg)-1
         elif opt == '-s':
             otherid_schema = arg
+        elif opt == '-t':
+            if arg not in [FACILITY, ORGANIZATION, PROVIDER, SERVICE]:
+                print "Unknown resource type: " + arg
+                sys.exit(1)
+            resource_type = arg
         elif opt == '-u':
             base_url = arg
 
@@ -261,4 +275,4 @@ if __name__ == "__main__":
     
     csv_file = args[0]
     directory = args[1]
-    process_csv_contents(csv_file, base_url, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
+    process_csv_contents(csv_file, base_url, resource_type, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
