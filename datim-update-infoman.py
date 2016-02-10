@@ -27,7 +27,7 @@ SERVICE = 'service'
 DEFAULT_RESOURCE_TYPE = ORGANIZATION
 
 
-USAGE = """Usage: ./update-infoman-faclities.py [OPTIONS...] CSV DIRECTORY_NAME
+USAGE = """Usage: ./datim-update-infoman.py [OPTIONS...] CSV DIRECTORY_NAME
 
 Updates OpenInfoMan with codes provided by a file in csv format. The DIRECTORY_NAME that needs to be updated in OpenInfoMan has to be specified.
 
