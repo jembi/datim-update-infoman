@@ -31,3 +31,23 @@ The updates must be specified in a CSV file with the first column containing the
 The spreadsheet can have other columns - these will simply be ignored.
 
 If the Pepfar and Local IDs are in different columns in your spreadsheet, use the `-m` and `-n` arguments to set the correct columns.
+
+# Exporting a mapping document from the ILR
+
+To export an initial mapping spreadsheet you may use a custom stored function in the ILR. Here is how to get started.
+
+First you will have to have the `openinfoman-csv` package installed in the ILR:
+
+```sh
+sudo add-apt-repository -y ppa:openhie/release
+sudo apt-get update
+sudo apt-get install openinfoman-csv
+```
+
+Next, you will need to upload a stored function. Firstly, you must edit [line 30](https://github.com/jembi/datim-update-infoman/blob/master/export_organizations_to_csv.xml#L30) of the stored function with the correct `codingSchema` that you are using for local identifiers. Then, in the ILR user interface navigate to Server Management > Manage Stored Functions > Upload function. From there select the file `export_organizations_to_csv.xml` found in this repository and hit submit. Then, click `Reload stored functions from disk`.
+
+Once that is done, you can export the mapping spreadsheet by executing the following:
+
+```sh
+curl -X POST http://<your_server>:8984/CSD/csr/<the_csd_document>/careServicesRequest/urn:datim.org:export-mapping-csv > mapping.csv
+```
