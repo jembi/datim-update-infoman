@@ -44,7 +44,7 @@ sudo apt-get update
 sudo apt-get install openinfoman-csv
 ```
 
-Next, you will need to upload a stored function. In the ILR user interface navigate to Server Management > Manage Stored Functions > Upload function. From there select the file `export_organizations_to_csv.xml` found in this repository and hit submit. Then, click `Reload stored functions from disk`.
+Next, you will need to upload a stored function. Firstly, you must edit [line 30](https://github.com/jembi/datim-update-infoman/blob/master/export_organizations_to_csv.xml#L30) of the stored function with the correct `codingSchema` that you are using for local identifiers. Then, in the ILR user interface navigate to Server Management > Manage Stored Functions > Upload function. From there select the file `export_organizations_to_csv.xml` found in this repository and hit submit. Then, click `Reload stored functions from disk`.
 
 Once that is done, you can export the mapping spreadsheet by executing the following:
 

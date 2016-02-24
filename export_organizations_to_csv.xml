@@ -27,7 +27,7 @@ oi_csv:get_serialized(/,$careServicesRequest)
   <csd:extension type='search' urn='urn:openhie.org:openinfoman:adapter:csv'>urn:ihe:iti:csd:2014:stored-function:organization-search</csd:extension>
   <csd:extension type='xpaths' urn='urn:openhie.org:openinfoman:adapter:csv'>
     <xpath name='eid'>@entityID</xpath>
-    <xpath name='lid'>csd:otherID[@assigningAuthorityName='urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63']/@code</xpath>
+    <xpath name='lid'>csd:otherID[@codingSchema='urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63']/@code</xpath>
     <xpath name='name'>csd:primaryName</xpath>
   </csd:extension>
 </csd:careServicesFunction>
