@@ -1,15 +1,16 @@
-Source: openinfoman-hwr
-Maintainer: Carl Leitner <litlfred@ibiblio.org>
+Source: openinfoman-mapper
+Maintainer: Andrew Napier <andrew.napier@jembi.org>
 Section: web
 Priority: optional
 Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7)
-Homepage: https://github.com/openhie/openinfoman-hwr
+Homepage: https://github.com/jembi/datim-update-infoman
 
 
-Package: openinfoman-hwr
+Package: openinfoman-mapper
 Architecture: all
-Depends: openinfoman (>= 1.1)
+Depends: openinfoman-csv (>= 1.1), wget
 Recommends: 
-Description: OpenInfoMan HWR Registry
- Library of stored functions for OpenInfoMan to provide a CRUD functionality for a Health Worker Registry
+Description: OpenInfoMan Mapper
+ Export a mapping document from the ILR
+
