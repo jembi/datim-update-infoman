@@ -1,3 +1,9 @@
+openinfoman-mapping (1.0.14~vivid) vivid; urgency=medium
+
+  * Release Version 1.0.14
+
+ -- Andrew Napier <andrew.napier@jembi.org>  Tue, 03 May 2016 11:42:51 +0200
+
 openinfoman-mapping (1.0.13~vivid) vivid; urgency=medium
 
   * Release Version 1.0.13

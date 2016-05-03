@@ -109,7 +109,7 @@ do
     OIDIR=$PKGDIR/var/lib/openinfoman
 
     echo  "echo Building Package $PKG  on Release $RLS for Target $TARGET"
-    echo  "$PKG $PKGDIR $SRCDIR $OIDIR"
+    echo  "$PKG $PKGDIR $SRCDIR $OIDIR $CHANGES"
 
     rm -fr $PKGDIR
     mkdir -p $OIDIR
