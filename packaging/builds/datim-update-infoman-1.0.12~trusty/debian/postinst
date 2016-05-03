@@ -1,0 +1,19 @@
+#!/bin/bash
+set -x
+
+
+OI=/var/lib/openinfoman
+USERNAME=oi
+BASEX=$OI/bin/basex
+
+SFS=("stored_query_definitions/export_organizations_to_csv.xml" )
+
+
+for SF in ${SFS[@]}
+do
+  cd $OI
+  $OI/resources/scripts/datim-update-infoman.py $OI/resources/$SF 
+  if [[ $? != 0 ]]; then exit 1; fi
+done
+
+chown -R $USERNAME:$USERNAME $OI

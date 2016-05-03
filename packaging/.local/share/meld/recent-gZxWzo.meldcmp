@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/Brtvaa_control;/home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/control
+

@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/Dg4t4U_create-deb.sh;/home/andrew/projects/datim-update-infoman/packaging/create-deb.sh
+

@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/YooknM_create-deb.sh;/home/andrew/projects/datim-update-infoman/packaging/create-deb.sh
+
