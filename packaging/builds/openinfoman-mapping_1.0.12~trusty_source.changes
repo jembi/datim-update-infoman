@@ -1,0 +1,40 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Format: 1.8
+Date: Tue, 03 May 2016 11:14:24 +0200
+Source: openinfoman-mapping
+Binary: openinfoman-mapping
+Architecture: source
+Version: 1.0.12~trusty
+Distribution: trusty
+Urgency: medium
+Maintainer: Andrew Napier <andrew.napier@jembi.org>
+Changed-By: Andrew Napier <andrew.napier@jembi.org>
+Description: 
+ openinfoman-mapping - OpenInfoMan Mapper
+Changes: 
+ openinfoman-mapping (1.0.12~trusty) trusty; urgency=medium
+ .
+   * Release Version 1.0.12
+Checksums-Sha1: 
+ 9d3c56f016de4a428344c5b2df229e102ded5a3e 1192 openinfoman-mapping_1.0.12~trusty.dsc
+ 74ef57b65a52b9eb1ff8886de6e4e637f725bd34 36514 openinfoman-mapping_1.0.12~trusty.tar.gz
+Checksums-Sha256: 
+ ef5d885cc97f0d8dbd0a70c1d9e4f50862354fb69a579cbbf65ea18692ed2a5f 1192 openinfoman-mapping_1.0.12~trusty.dsc
+ c3412d8f5c92d4a0ca766127346443698571535d91b00de7f9bffd51f27cb3a6 36514 openinfoman-mapping_1.0.12~trusty.tar.gz
+Files: 
+ 88289915f1a2187c956979631a30bb6c 1192 web optional openinfoman-mapping_1.0.12~trusty.dsc
+ 8c89f76f2622feb3c6fcc0c7d5e882ea 36514 web optional openinfoman-mapping_1.0.12~trusty.tar.gz
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJXKGv+AAoJEMdcE6UPyHn+Bq0H/j2i1rNsKfqGK4HrX734ymgu
+TCZxiy6/gvf9B22wkuFnF/1S9rXEJN5iTaV4BRgahJ1Dx6H/fVGqojtP4N4Id7pt
+vbsCAfv4np1nM+m6H5M1ohBjs0utzWBOapc/x4v63/5ITy3x/d1thFgDeqNOSzfJ
+JEfR4MUiuopNxjQ3paZAmCC/2OJdYT7fV2j8C7aSELzvjk4Tcg7kv+l3TB99owtf
+GVZKlSFsDueyA7U3xSPBt/Rs2HcoKnUkB4n6voG8mGr4NqU/2UNpslS1Ztpnc6bD
+8ApsKVLYMx/MkNhc2nQ1s6REAPm6butoRWD0FFALnK76YHgKfdOAnwn10X6kCUg=
+=syNl
+-----END PGP SIGNATURE-----

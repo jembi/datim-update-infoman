@@ -479,4 +479,46 @@
       </metadata>
     </info>
   </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-6UJguK.meldcmp" added="2016-05-03T09:40:23Z" modified="2016-05-03T09:40:23Z" visited="2016-05-03T09:40:24Z">
+    <title>Dg4t4U_create-deb.sh : create-deb.sh</title>
+    <desc>File comparison
+/tmp/Dg4t4U_create-deb.sh, /home/andrew/projects/datim-update-infoman/packaging/create-deb.sh</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T09:40:23Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-qwyOgh.meldcmp" added="2016-05-03T09:40:27Z" modified="2016-05-03T09:40:27Z" visited="2016-05-03T09:40:28Z">
+    <title>M1wYlb_changelog : changelog</title>
+    <desc>File comparison
+/tmp/M1wYlb_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T09:40:27Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-nFuo_g.meldcmp" added="2016-05-03T09:40:28Z" modified="2016-05-03T09:40:28Z" visited="2016-05-03T09:40:30.406558Z">
+    <title>kkVaAQ_changelog : changelog</title>
+    <desc>File comparison
+/tmp/kkVaAQ_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/vivid/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T09:40:28Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
 </xbel>
