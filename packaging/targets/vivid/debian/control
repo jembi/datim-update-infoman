@@ -1,4 +1,4 @@
-Source: openinfoman-mapper
+Source: openinfoman-mapping
 Maintainer: Andrew Napier <andrew.napier@jembi.org>
 Section: web
 Priority: optional
@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 7)
 Homepage: https://github.com/jembi/datim-update-infoman
 
 
-Package: openinfoman-mapper
+Package: openinfoman-mapping
 Architecture: all
 Depends: openinfoman-csv (>= 1.1), wget
 Recommends: 
