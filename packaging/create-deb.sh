@@ -101,47 +101,49 @@ do
     TARGETDIR=$HOME/targets/$TARGET
     echo "$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'"
     RLS=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'`
-    PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
+    # PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
+    PKG="datim-update-infoman"
+    PKGNME="openinfoman-mapping"
     PKGDIR=${BUILD}/${PKG}-${RLS}~${TARGET}
     SRCDIR=${PKGDIR}/tmp-src
-    CHANGES=${BUILD}/${PKG}_${RLS}~${TARGET}_source.changes
+    CHANGES=${BUILD}/${PKGNME}_${RLS}~${TARGET}_source.changes
     OIDIR=$PKGDIR/var/lib/openinfoman
 
     echo  "echo Building Package $PKG  on Release $RLS for Target $TARGET"
+    echo  "$PKG $PKGDIR $SRCDIR $OIDIR $CHANGES"
 
     rm -fr $PKGDIR
     mkdir -p $OIDIR
     mkdir -p $SRCDIR
-    git clone https://github.com/openhie/$PKG.git  $SRCDIR
+    git clone https://github.com/jembi/$PKG.git  $SRCDIR
     for CPDIR in "${CPDIRS[@]}"
     do
-	if [ -d "$SRCDIR/$CPDIR" ]; then
-	    cp -R $SRCDIR/$CPDIR $OIDIR
-	fi
+    	if [ -d "$SRCDIR/$CPDIR" ]; then
+    	    cp -R $SRCDIR/$CPDIR $OIDIR
+    	fi
     done
     for CPFILE in "${CPFILES[@]}"
     do
-	if [ -e "$SRCDIR/$CPFILE" ]; then
-	    cp  $SRCFILE/$CPFILE $OIDIR
-	fi
+    	if [ -e "$SRCDIR/$CPFILE" ]; then
+    	    cp  $SRCFILE/$CPFILE $OIDIR
+    	fi
     done
     if [ -d "$SRCDIR/repo" ]; then
-	mv $SRCDIR/repo $OIDIR/repo-src 
+	    mv $SRCDIR/repo $OIDIR/repo-src 
     fi
 
     cp  -R $TARGETDIR/* $PKGDIR
 
     cd $PKGDIR  
     if [[ -n "${DEB_SIGN_KEYID}" && -n "{$LAUNCHPADLOGIN}" ]]; then
-	DPKGCMD="dpkg-buildpackage -k${DEB_SIGN_KEYID}  -S -sa "
-	$DPKGCMD
-	DPUTCMD="dput ppa:$LAUNCHPADPPALOGIN/$PPA  $CHANGES"
-	$DPUTCMD
+    	DPKGCMD="dpkg-buildpackage -k${DEB_SIGN_KEYID}  -S -sa "
+    	$DPKGCMD
+    	DPUTCMD="dput ppa:$LAUNCHPADPPALOGIN/$PPA  $CHANGES"
+    	$DPUTCMD
     else
-	echo "Not uploading to launchpad"
-	DPKGCMD="dpkg-buildpackage -uc -us"
-	$DPKGCMD
-
+    	echo "Not uploading to launchpad"
+    	DPKGCMD="dpkg-buildpackage -uc -us"
+    	$DPKGCMD
     fi
 done
 
