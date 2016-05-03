@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/5UrR7d_changelog;/home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/changelog
+

@@ -115,7 +115,7 @@
       </metadata>
     </info>
   </bookmark>
-  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-w8wmoP.meldcmp" added="2016-05-03T08:19:50Z" modified="2016-05-03T08:19:50Z" visited="2016-05-03T08:19:51.900289Z">
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-w8wmoP.meldcmp" added="2016-05-03T08:19:50Z" modified="2016-05-03T08:19:50Z" visited="2016-05-03T08:19:51Z">
     <title>vbKhbs_changelog : changelog</title>
     <desc>File comparison
 /tmp/vbKhbs_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/vivid/debian/changelog</desc>
@@ -124,6 +124,48 @@
         <mime:mime-type type="application/x-meld-comparison"/>
         <bookmark:applications>
           <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:19:50Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-llekXl.meldcmp" added="2016-05-03T08:25:45Z" modified="2016-05-03T08:25:45Z" visited="2016-05-03T08:25:45Z">
+    <title>x7rdJz_create-deb.sh : create-deb.sh</title>
+    <desc>File comparison
+/tmp/x7rdJz_create-deb.sh, /home/andrew/projects/datim-update-infoman/packaging/create-deb.sh</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:25:45Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-7zbUMO.meldcmp" added="2016-05-03T08:25:49Z" modified="2016-05-03T08:25:49Z" visited="2016-05-03T08:25:50Z">
+    <title>5UrR7d_changelog : changelog</title>
+    <desc>File comparison
+/tmp/5UrR7d_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:25:49Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-lzqREn.meldcmp" added="2016-05-03T08:25:51Z" modified="2016-05-03T08:25:51Z" visited="2016-05-03T08:25:52.385348Z">
+    <title>KVDy2c_changelog : changelog</title>
+    <desc>File comparison
+/tmp/KVDy2c_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/vivid/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:25:51Z" count="1"/>
         </bookmark:applications>
         <bookmark:private/>
       </metadata>

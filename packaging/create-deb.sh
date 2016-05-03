@@ -102,7 +102,7 @@ do
     echo "$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'"
     RLS=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'`
     # PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
-    PKG=`datim-update-infoman`
+    PKG="datim-update-infoman"
     PKGDIR=${BUILD}/${PKG}-${RLS}~${TARGET}
     SRCDIR=${PKGDIR}/tmp-src
     CHANGES=${BUILD}/${PKG}_${RLS}~${TARGET}_source.changes
