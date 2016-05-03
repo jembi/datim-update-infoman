@@ -103,9 +103,10 @@ do
     RLS=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'`
     # PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
     PKG="datim-update-infoman"
+    PKGNME = "openinfoman-mapping"
     PKGDIR=${BUILD}/${PKG}-${RLS}~${TARGET}
     SRCDIR=${PKGDIR}/tmp-src
-    CHANGES=${BUILD}/${PKG}_${RLS}~${TARGET}_source.changes
+    CHANGES=${BUILD}/${PKGNME}_${RLS}~${TARGET}_source.changes
     OIDIR=$PKGDIR/var/lib/openinfoman
 
     echo  "echo Building Package $PKG  on Release $RLS for Target $TARGET"

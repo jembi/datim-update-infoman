@@ -1,9 +1,3 @@
-openinfoman-mapping (1.0.15~trusty) trusty; urgency=medium
-
-  * Release Version 1.0.15
-
- -- Andrew Napier <andrew.napier@jembi.org>  Tue, 03 May 2016 11:44:44 +0200
-
 openinfoman-mapping (1.0.14~trusty) trusty; urgency=medium
 
   * Release Version 1.0.14
