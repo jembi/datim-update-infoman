@@ -3,7 +3,7 @@ Maintainer: Andrew Napier <andrew.napier@jembi.org>
 Section: web
 Priority: optional
 Standards-Version: 3.9.1
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 9)
 Homepage: https://github.com/jembi/datim-update-infoman
 
 
