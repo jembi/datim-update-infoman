@@ -1,50 +1,8 @@
-openinfoman-mapping (.1~trusty) trusty; urgency=medium
+openinfoman-mapping (1.0.1~trusty) trusty; urgency=medium
 
-  * Release Version .1
-    -f86b413 Add symbolic links
-    --https://github.com/jembi/datim-update-infoman/commmit/f86b413
-    -b9b183f OHIE-117: Update vivid debian files
-    --https://github.com/jembi/datim-update-infoman/commmit/b9b183f
-    -5452bf3 OHIE-117: Update postinst file
-    --https://github.com/jembi/datim-update-infoman/commmit/5452bf3
-    -3a0e368 OHIE-117: Update control file
-    --https://github.com/jembi/datim-update-infoman/commmit/3a0e368
-    -986c7b3 OHIE-117: Update changelog for initial entry
-    --https://github.com/jembi/datim-update-infoman/commmit/986c7b3
-    -4ede850 OHIE-117: Reorganization of repo
-    --https://github.com/jembi/datim-update-infoman/commmit/4ede850
-    -232975f Correct exporting of local IDs
-    --https://github.com/jembi/datim-update-infoman/commmit/232975f
-    -bdfabfa Add a stored function definition for mapping exports
-    --https://github.com/jembi/datim-update-infoman/commmit/bdfabfa
-    -c0df0cc Better namespace handling
-    --https://github.com/jembi/datim-update-infoman/commmit/c0df0cc
-    -52b1fa8 Script name fix
-    --https://github.com/jembi/datim-update-infoman/commmit/52b1fa8
-    -333bc01 enamed: update-infoman-facilities.py -> datim-update-infom
-    --https://github.com/jembi/datim-update-infoman/commmit/333bc01
-    -b8edd55 Flexible resource types
-    --https://github.com/jembi/datim-update-infoman/commmit/b8edd55
-    -7c571cf Refactoring
-    --https://github.com/jembi/datim-update-infoman/commmit/7c571cf
-    -60ae370 Print directory info
-    --https://github.com/jembi/datim-update-infoman/commmit/60ae370
-    -9ab946e Added support for resuming partial updates. Various minor
-    --https://github.com/jembi/datim-update-infoman/commmit/9ab946e
-    -55f4342 Added column modifier args
-    --https://github.com/jembi/datim-update-infoman/commmit/55f4342
-    -6487b16 Create README.md
-    --https://github.com/jembi/datim-update-infoman/commmit/6487b16
-    -51e9ddb Added support for overridding the otherID code schema
-    --https://github.com/jembi/datim-update-infoman/commmit/51e9ddb
-    -fb24f27 Added directory parameter
-    --https://github.com/jembi/datim-update-infoman/commmit/fb24f27
-    -316e70d Switched requests out for urllib2 (help ensure out-of-the-
-    --https://github.com/jembi/datim-update-infoman/commmit/316e70d
-    -d8de352 First basic working version of script
-    --https://github.com/jembi/datim-update-infoman/commmit/d8de352
+  * Release Version 1.0.1
 
- -- Andrew Napier <andrew.napier@jembi.org>  Tue, 03 May 2016 10:02:45 +0200
+ -- Andrew Napier <andrew.napier@jembi.org>  Tue, 03 May 2016 10:07:12 +0200
 
 openinfoman-mapping (1.0.0~trusty) trusty; urgency=low
 
