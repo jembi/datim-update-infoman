@@ -101,7 +101,8 @@ do
     TARGETDIR=$HOME/targets/$TARGET
     echo "$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'"
     RLS=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $2}' | $AWK -F~ '{print $1}' | $AWK -F\( '{print $2}'`
-    PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
+    # PKG=`$HEAD -1 $TARGETDIR/debian/changelog | $AWK '{print $1}'`
+    PKG=`datim-update-infoman`
     PKGDIR=${BUILD}/${PKG}-${RLS}~${TARGET}
     SRCDIR=${PKGDIR}/tmp-src
     CHANGES=${BUILD}/${PKG}_${RLS}~${TARGET}_source.changes
@@ -112,7 +113,7 @@ do
     rm -fr $PKGDIR
     mkdir -p $OIDIR
     mkdir -p $SRCDIR
-    git clone https://github.com/openhie/$PKG.git  $SRCDIR
+    git clone https://github.com/jembi/$PKG.git  $SRCDIR
     for CPDIR in "${CPDIRS[@]}"
     do
 	if [ -d "$SRCDIR/$CPDIR" ]; then
