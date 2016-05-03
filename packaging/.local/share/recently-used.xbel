@@ -339,4 +339,32 @@
       </metadata>
     </info>
   </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-0UHvLj.meldcmp" added="2016-05-03T08:58:27Z" modified="2016-05-03T08:58:27Z" visited="2016-05-03T08:58:27Z">
+    <title>oWaQTG_changelog : changelog</title>
+    <desc>File comparison
+/tmp/oWaQTG_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:58:27Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/andrew/projects/datim-update-infoman/packaging/.local/share/meld/recent-2Nlt6J.meldcmp" added="2016-05-03T08:58:31Z" modified="2016-05-03T08:58:31Z" visited="2016-05-03T08:58:32.532383Z">
+    <title>DZXIk1_changelog : changelog</title>
+    <desc>File comparison
+/tmp/DZXIk1_changelog, /home/andrew/projects/datim-update-infoman/packaging/targets/vivid/debian/changelog</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-meld-comparison"/>
+        <bookmark:applications>
+          <bookmark:application name="Meld" exec="&apos;/usr/bin/meld --comparison-file %u&apos;" modified="2016-05-03T08:58:31Z" count="1"/>
+        </bookmark:applications>
+        <bookmark:private/>
+      </metadata>
+    </info>
+  </bookmark>
 </xbel>
