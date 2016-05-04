@@ -20,9 +20,9 @@ Updates OpenInfoMan with codes provided by a file in csv format. The `DIRECTORY_
 # Getting and running the script
 The script should work out-of-the-box on most Linux distributions and OS X (Windows users see [here](http://docs.python-guide.org/en/latest/starting/install/win/)). Simply grab the script and run:
 ```
-wget https://raw.githubusercontent.com/jembi/datim-update-infoman/master/datim-update-infoman.py
-chmod +x datim-update-infoman.py
-./datim-update-infoman.py -u http://my-infoman:8984/CSD -s uuid:me:localid -t facility updates.csv my-facilities
+wget https://raw.githubusercontent.com/jembi/datim-update-infoman/master/resources/scripts/datim-update-infoman.py
+chmod +x resources/scripts/datim-update-infoman.py
+./resources/scripts/datim-update-infoman.py -u http://my-infoman:8984/CSD -s uuid:me:localid -t facility updates.csv my-facilities
 ```
 
 # CSV
