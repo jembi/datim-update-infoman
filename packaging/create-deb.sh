@@ -115,7 +115,7 @@ do
     rm -fr $PKGDIR
     mkdir -p $OIDIR
     mkdir -p $SRCDIR
-    git clone -b https://github.com/jembi/$PKG.git  $SRCDIR
+    git clone https://github.com/jembi/$PKG.git  $SRCDIR
     for CPDIR in "${CPDIRS[@]}"
     do
     	if [ -d "$SRCDIR/$CPDIR" ]; then
