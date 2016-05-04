@@ -36,7 +36,7 @@ If the Pepfar and Local IDs are in different columns in your spreadsheet, use th
 
 To export an initial mapping spreadsheet you may use a custom stored function in the ILR. Here is how to get started.
 
-First you will have to have the `openinfoman-csv` package installed in the ILR:
+First you will have to have the `openinfoman-mapping` package installed in the ILR:
 
 ```sh
 sudo add-apt-repository -y ppa:openhie/release
