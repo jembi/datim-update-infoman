@@ -3,7 +3,7 @@ Datim script for updating OpenInfoMan resources from a spreadsheet.
 
 # Usage
 ```
-./datim-update-infoman.py [OPTIONS...] CSV DIRECTORY_NAME
+./resources/scripts/datim-update-infoman.py [OPTIONS...] CSV DIRECTORY_NAME
 ```
 Updates OpenInfoMan with codes provided by a file in csv format. The `DIRECTORY_NAME` that needs to be updated in OpenInfoMan has to be specified.
 
@@ -41,10 +41,17 @@ First you will have to have the `openinfoman-csv` package installed in the ILR:
 ```sh
 sudo add-apt-repository -y ppa:openhie/release
 sudo apt-get update
-sudo apt-get install openinfoman-csv
+sudo apt-get install openinfoman-mapping
 ```
 
-Next, you will need to upload a stored function. Firstly, you must edit [line 30](https://github.com/jembi/datim-update-infoman/blob/master/export_organizations_to_csv.xml#L30) of the stored function with the correct `codingSchema` that you are using for local identifiers. Then, in the ILR user interface navigate to Server Management > Manage Stored Functions > Upload function. From there select the file `export_organizations_to_csv.xml` found in this repository and hit submit. Then, click `Reload stored functions from disk`.
+You will be prompted to supply the correct `codingSchema` that you are using for local identifiers, which will change [line 30](https://github.com/jembi/datim-update-infoman/blob/master/export_organizations_to_csv.xml#L30) of the stored function.
+
+To run without an interactive terminal, you can pass the `codingSchema` as a debconf argument:
+
+```sh
+RUN echo 'update-infoman update-infoman/codingSchema string my-coding-schema' | debconf-set-selections
+RUN apt-get install openinfoman-mapping -y
+```
 
 Once that is done, you can export the mapping spreadsheet by executing the following:
 
