@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/3iMNck_postinst;/home/andrew/projects/datim-update-infoman/packaging/targets/trusty/debian/postinst
+

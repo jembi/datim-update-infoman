@@ -1,0 +1,4 @@
+[Comparison]
+type = File
+paths = /tmp/43iWwc_changelog;/home/andrew/projects/datim-update-infoman/packaging/targets/vivid/debian/changelog
+

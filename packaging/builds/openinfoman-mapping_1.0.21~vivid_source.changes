@@ -1,0 +1,40 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Format: 1.8
+Date: Tue, 03 May 2016 15:20:47 +0200
+Source: openinfoman-mapping
+Binary: openinfoman-mapping
+Architecture: source
+Version: 1.0.21~vivid
+Distribution: vivid
+Urgency: medium
+Maintainer: Andrew Napier <andrew.napier@jembi.org>
+Changed-By: Andrew Napier <andrew.napier@jembi.org>
+Description: 
+ openinfoman-mapping - OpenInfoMan Mapper
+Changes: 
+ openinfoman-mapping (1.0.21~vivid) vivid; urgency=medium
+ .
+   * Release Version 1.0.21
+Checksums-Sha1: 
+ 594a486459a16582e75b5b8e183dd173ca255c4d 1191 openinfoman-mapping_1.0.21~vivid.dsc
+ fe7ebfc35cfc8942cb5d98c6bd1c916ba07b70bd 232056 openinfoman-mapping_1.0.21~vivid.tar.gz
+Checksums-Sha256: 
+ a2c36ecbcfd25b69888f8f61a87767e996bb8aa8b89f85bc2be908a1fa49c175 1191 openinfoman-mapping_1.0.21~vivid.dsc
+ 25b5f0e8138b2579753ffe28d14f4cbe006d01b3a9bccc33a06729c05858f06e 232056 openinfoman-mapping_1.0.21~vivid.tar.gz
+Files: 
+ bd610cb8383b7f199bd10999af994b01 1191 web optional openinfoman-mapping_1.0.21~vivid.dsc
+ 55d5ddd095cc879f33a9037102ab4921 232056 web optional openinfoman-mapping_1.0.21~vivid.tar.gz
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJXKKXJAAoJEMdcE6UPyHn+yagIAJuxNWSVb3mBcgUXRjx3umr1
+7XuWqQutlLO0DfJA3qAhE6fFRiK8wfss88YxOvR/nt47SwHYcd+p1Mheb4KLPvim
+mb6j8cl5Ic0Tbjp2Fu9qQVrRCN7pDfIrEY0ei82EZgqKmtLxoVQ8UHDufBJZcAwl
+na86O88CkmerYymLvIUoJ9D9ZyInJznWZOy08wZmbOVOzssZzwYfMwx1fFfc2rUr
+O7dv5xzQqvvDqVG7VRsfWpvqPyFsqubc9fjgM/rwPtv4YTbawjvMGQ2kL08U3hE5
+b913CwMk5stfYu9oBfZZbvJ7sxp38VOnU12nDSNN0wYJC6ou6sf4o7Y6dPLnuV8=
+=dUzO
+-----END PGP SIGNATURE-----
