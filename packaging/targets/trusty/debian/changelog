@@ -1,3 +1,17 @@
+openinfoman-mapping (1.0.23~trusty) trusty; urgency=medium
+
+  * Release Version 1.0.23
+    -4996cd0 MHER-117: Add gitignore
+    --https://github.com/jembi/datim-update-infoman/commmit/4996cd0
+
+ -- Andrew Napier <andrew.napier@jembi.org>  Wed, 04 May 2016 11:13:24 +0200
+
+openinfoman-mapping (1.0.23~trusty) trusty; urgency=medium
+
+  * Release Version 1.0.23
+
+ -- Andrew Napier <andrew.napier@jembi.org>  Wed, 04 May 2016 11:08:09 +0200
+
 openinfoman-mapping (1.0.22~trusty) trusty; urgency=medium
 
   * Release Version 1.0.22
