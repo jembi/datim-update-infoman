@@ -1,0 +1,3 @@
+packaging/.*
+packaging/builds/*
+packaging/targets/*/debian/changelog
