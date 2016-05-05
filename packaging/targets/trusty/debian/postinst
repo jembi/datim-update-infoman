@@ -1,0 +1,24 @@
+#!/bin/bash
+set -x
+
+
+OI=/var/lib/openinfoman
+USERNAME=oi
+BASEX=$OI/bin/basex
+
+. /usr/share/debconf/confmodule
+db_get update-infoman/codingSchema
+SCHEMA=$RET
+cd $OI
+sed -ie s/urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63/$SCHEMA/g ./resources/stored_query_definitions/export_organizations_to_csv.xml
+
+SFS=("stored_query_definitions/export_organizations_to_csv.xml" )
+
+
+for SF in ${SFS[@]}
+do
+  $OI/resources/scripts/install_stored_function.php $OI/resources/$SF
+  if [[ $? != 0 ]]; then exit 1; fi
+done
+
+chown -R $USERNAME:$USERNAME $OI

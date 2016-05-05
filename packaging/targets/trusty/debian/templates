@@ -1,0 +1,4 @@
+Template: update-infoman/codingSchema
+Type: string
+Default: urn:uuid:2cec73f2-396f-4772-93e3-b26909387e63
+Description: What is the codingSchema that you are using for local identifiers?

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. /usr/share/debconf/confmodule 
+db_input critical update-infoman/codingSchema || true
+db_go || true
