@@ -66,6 +66,7 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo add-apt-repository -y ppa:openhie/release
+    sudo add-apt-repository -y ppa:openhie/datim
     sudo apt-get update
     echo "openinfoman openinfoman/memsize string 1g" | debconf-set-selections
     echo "openinfoman openinfoman/dbname string provider_directory" | debconf-set-selections
