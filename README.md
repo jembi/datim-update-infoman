@@ -49,8 +49,8 @@ You will be prompted to supply the correct `codingSchema` that you are using for
 To run without an interactive terminal, you can pass the `codingSchema` as a debconf argument:
 
 ```sh
-RUN echo 'update-infoman update-infoman/codingSchema string my-coding-schema' | debconf-set-selections
-RUN apt-get install openinfoman-mapping -y
+echo 'update-infoman update-infoman/codingSchema string my-coding-schema' | sudo debconf-set-selections
+sudo apt-get install openinfoman-mapping -y
 ```
 
 Once that is done, you can export the mapping spreadsheet by executing the following:
