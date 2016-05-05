@@ -3,7 +3,7 @@
 set -e
 
 
-PPA=release
+PPA=datim
 CPDIRS=("webapp" "resources" )
 CPFILES=()
 
@@ -15,7 +15,7 @@ HEAD=/usr/bin/head
 GIT=/usr/bin/git
 SORT=/usr/bin/sort
 DCH=/usr/bin/dch
-PR=/usr/bin/pr 
+PR=/usr/bin/pr
 SED=/bin/sed
 FMT=/usr/bin/fmt
 PR=/usr/bin/pr
@@ -31,10 +31,10 @@ cd $HOME
 
 LASTVERS=`$GIT tag -l '1.*.*' | $SORT -rV | $HEAD -1`
 VERS="${LASTVERS%.*}.$((${LASTVERS##*.}+1))"
-echo Current tagged verison is $LASTVERS.  
+echo Current tagged verison is $LASTVERS.
 $GIT status
 echo Should we update changelogs, commit under packacing everything and increment to $VERS? [y/n]
-read INCVERS 
+read INCVERS
 
 if [[ "$INCVERS" == "y" || "$INCVERS" == "Y" ]];  then
     COMMITMSG="Release Version $VERS"
@@ -46,7 +46,7 @@ if [[ "$INCVERS" == "y" || "$INCVERS" == "Y" ]];  then
 
     LOGLINES=$($GIT log --oneline $LASTVERS.. | $AWK '{printf " -%s\n --'$URL'%s\n" , $0, $1}')
 
-    FULLCOMMITMSG=$(echo "$COMMITMSG 
+    FULLCOMMITMSG=$(echo "$COMMITMSG
 $LOGLINES" |  $XARGS -0 | $AWK '{printf "%-'"$WIDTH.$WIDTH"'s\n" , $0}')
 
 
@@ -75,7 +75,7 @@ fi
 if [ -n "$LAUNCHPADPPALOGIN" ]; then
   echo Using $LAUNCHPADPPALOGIN for Launchpad PPA login
   echo "To Change You can do: export LAUNCHPADPPALOGIN=$LAUNCHPADPPALOGIN"
-else 
+else
   echo -n "Enter your launchpad login for the ppa and press [ENTER]: "
   read LAUNCHPADPPALOGIN
   echo "You can do: export LAUNCHPADPPALOGIN=$LAUNCHPADPPALOGIN to avoid this step in the future"
@@ -86,7 +86,7 @@ if [ -n "${DEB_SIGN_KEYID}" ]; then
   echo Using ${DEB_SIGN_KEYID} for Launchpad PPA login
   echo "To Change You can do: export DEB_SIGN_KEYID=${DEB_SIGN_KEYID}"
   echo "For unsigned you can do: export DEB_SIGN_KEYID="
-else 
+else
   echo "No DEB_SIGN_KEYID key has been set.  Will create an unsigned"
   echo "To set a key for signing do: export DEB_SIGN_KEYID=<KEYID>"
   echo "Use gpg --list-keys to see the available keys"
@@ -129,12 +129,12 @@ do
     	fi
     done
     if [ -d "$SRCDIR/repo" ]; then
-	    mv $SRCDIR/repo $OIDIR/repo-src 
+	    mv $SRCDIR/repo $OIDIR/repo-src
     fi
 
     cp  -R $TARGETDIR/* $PKGDIR
 
-    cd $PKGDIR  
+    cd $PKGDIR
     if [[ -n "${DEB_SIGN_KEYID}" && -n "{$LAUNCHPADLOGIN}" ]]; then
     	DPKGCMD="dpkg-buildpackage -k${DEB_SIGN_KEYID}  -S -sa "
     	$DPKGCMD
