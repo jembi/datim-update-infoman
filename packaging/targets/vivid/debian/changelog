@@ -1,3 +1,13 @@
+openinfoman-mapping (1.0.2~vivid) vivid; urgency=medium
+
+  * Release Version 1.0.2
+    -1e86792 Fixes OpenInfoMan update
+    --git@github.com:jembi/datim-update-infoman-facilities/commmit/1e86
+    -69fe9a2 Update Vagrantfile and gitignrore
+    --git@github.com:jembi/datim-update-infoman-facilities/commmit/69fe
+
+ -- Andrew Napier <andrew.napier@jembi.org>  Wed, 18 May 2016 10:08:40 +0200
+
 openinfoman-mapping (1.0.1~vivid) vivid; urgency=medium
 
   * Release Version 1.0.1
