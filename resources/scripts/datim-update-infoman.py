@@ -78,7 +78,7 @@ def line_print(line_num, msg="", status=INFO):
 def split_csv_line(line):
     """Split a CSV row on comma delimiters"""
 
-    line = line.rstrip() 
+    line = line.rstrip()
 
     split = []
     token = ''
@@ -154,7 +154,7 @@ def process_resource_update(base_url, resource_type, directory, pepfar_id, local
         raise ContentException('Could not find %s resource with entityID %s' % (resource_type, pepfar_id))
 
     # add a new <otherID> sub-element with the local ID
-    ET.SubElement(resource, 'otherID', {'code': local_id, 'codingSchema': otherid_schema})
+    ET.SubElement(resource, 'otherID', {'code': 'local_id', 'codingSchema': otherid_schema}).text = local_id
     updateRequest = ET.Element('requestParams')
     updateRequest.append(resource)
 
@@ -214,8 +214,10 @@ def process_csv_contents(csv_file, base_url, resource_type, directory, read_firs
             else:
                 row = split_csv_line(line)
 
-                if len(row) <= max(pepfar_id_col, local_id_col) or row[pepfar_id_col] == '' or row[local_id_col] == '':
-                    line_print(line_num, "Invalid content", WARN)
+                if len(row) <= max(pepfar_id_col, local_id_col) or row[pepfar_id_col] == '':
+                    line_print(line_num, "Invalid content, skipping row", WARN)
+                elif row[local_id_col] == '':
+                    line_print(line_num, "No local id found, skipping row", WARN)
                 else:
                     try:
                         process_resource_update(base_url, resource_type, directory, row[pepfar_id_col], row[local_id_col], otherid_schema)
@@ -274,7 +276,7 @@ if __name__ == "__main__":
             base_url = arg
 
     if len(args) <= 1: print_usage_and_exit()
-    
+
     csv_file = args[0]
     directory = args[1]
     process_csv_contents(csv_file, base_url, resource_type, directory, read_first_line, otherid_schema, pepfar_id_col, local_id_col, ignore_progress)
